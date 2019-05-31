@@ -54,22 +54,22 @@ public class PopulateDatabase {
 
             Role customerRole = Role.builder()
                     .id(1L)
-                    .displayName("ROLE_ADMIN")
-                    .name("ROLE_ADMIN")
+                    .displayName("ROLE_CUSTOMER")
+                    .name("CUSTOMER")
                     .users(new ArrayList<>())
                     .build();
 
             Role adminRole = Role.builder()
-                    .id(1L)
-                    .displayName("ADMIN")
-                    .name("CUSTOMER")
+                    .id(2L)
+                    .displayName("ROLE_ADMIN")
+                    .name("ADMIN")
                     .users(new ArrayList<>())
                     .build();
 
             Role employeeRole = Role.builder()
-                    .id(1L)
-                    .displayName("EMPLOYEE")
-                    .name("CUSTOMER")
+                    .id(3L)
+                    .displayName("ROLE_EMPLOYEE")
+                    .name("EMPLOYEE")
                     .users(new ArrayList<>())
                     .build();
 
@@ -145,9 +145,15 @@ public class PopulateDatabase {
                 accountsPrepared.get(i).setUserAccount(customersPrepared.get(i));
                 accountRepository.save(accountsPrepared.get(i));
 
-                customerRole.getUsers().add(customersPrepared.get(i));
-                roleService.save(customerRole);
-                customersPrepared.get(i).setRole(customerRole);
+                if (i == 0) {
+                    adminRole.getUsers().add(customersPrepared.get(i));
+                    roleService.save(adminRole);
+                    customersPrepared.get(i).setRole(adminRole);
+                } else {
+                    customerRole.getUsers().add(customersPrepared.get(i));
+                    roleService.save(customerRole);
+                    customersPrepared.get(i).setRole(customerRole);
+                }
                 customersPrepared.get(i).setAccounts(accounts);
                 customersPrepared.get(i).setBank(bank);
                 customersPrepared.get(i).setBankProducts(new ArrayList<>());

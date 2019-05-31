@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ public class EmployeeController {
     private CustomerMapper customerMapper;
 
     @GetMapping
-    @Secured(value = {"ROLE_ADMIN"})
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<CustomerDTO> getAllCustomers() {
         return customerMapper.map(employeeService.getAllCustomers());
     }

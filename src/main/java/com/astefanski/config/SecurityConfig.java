@@ -2,21 +2,25 @@ package com.astefanski.config;
 
 
 import com.astefanski.config.security.CustomUserDetailService;
+import com.astefanski.config.security.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -34,15 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${spring.admin.username}")
     private String adminPassword;
 
-    @Value("${spring.queries.users-query}")
-    private String usersQuery;
-
-    @Value("${spring.queries.roles-query}")
-    private String rolesQuery;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SimpleUrlAuthenticationFailureHandler failureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public RestAuthenticationSuccessHandler restAuthenticationSuccessHandler() {
+        return new RestAuthenticationSuccessHandler();
     }
 
     @Override
@@ -59,16 +67,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
+//        http.csrf().disable();
         http.httpBasic().and().authorizeRequests()
                 .antMatchers("/employee").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().permitAll();
+                .formLogin().permitAll()
+                .successHandler(restAuthenticationSuccessHandler())
+                .failureHandler(failureHandler());
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**", "/h2-console/**");
     }
 }
