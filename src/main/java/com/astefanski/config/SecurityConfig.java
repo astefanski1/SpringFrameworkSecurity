@@ -69,12 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http.csrf().disable();
         http.httpBasic().and().authorizeRequests()
-                .antMatchers("/employee").authenticated()
+                .antMatchers("/employee", "/customer/**", "/customer").authenticated()
+                .antMatchers(HttpMethod.PUT,"/customer/**", "/customer").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().permitAll()
-                .successHandler(restAuthenticationSuccessHandler())
-                .failureHandler(failureHandler());
+                .formLogin().permitAll();
     }
 
     @Override

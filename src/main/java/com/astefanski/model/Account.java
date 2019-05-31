@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ public class Account {
     }
 
     //CUSTOMER
-    @ManyToOne
+    @OneToOne
     @PrimaryKeyJoinColumn(name = "idUser")
     private User userAccount;
 

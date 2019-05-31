@@ -67,7 +67,7 @@ public class User {
                 "\nUsername: " + username +
                 "\nPassword: " + password +
                 "\n----Address---- " + address +
-                "\n----Accounts---- " + accounts +
+                "\n----Accounts---- " + account +
                 "\n----Bank---- " + bank;
 
     }
@@ -83,8 +83,8 @@ public class User {
     private Address address;
 
     //ACCOUNTS
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)
-    private List<Account> accounts = new ArrayList<>();
+    @OneToOne(mappedBy = "userAccount", fetch = FetchType.EAGER)
+    private Account account;
 
     //BANK
     @ManyToOne(fetch = FetchType.EAGER)

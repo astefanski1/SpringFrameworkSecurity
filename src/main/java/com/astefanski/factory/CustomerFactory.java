@@ -56,12 +56,10 @@ public class CustomerFactory {
         address = addressService.assignCustomerToAddress(address, newUser);
         bank = bankService.addCustomerToBank(newUser, bank, account);
         account = accountService.assignCustomerToAccount(newUser, account, bank);
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(account);
 
         newUser.setAddress(address);
         newUser.setBank(bank);
-        newUser.setAccounts(accounts);
+        newUser.setAccount(account);
         newUser.setBankProducts(new ArrayList<>());
 
         return employeeService.save(newUser);

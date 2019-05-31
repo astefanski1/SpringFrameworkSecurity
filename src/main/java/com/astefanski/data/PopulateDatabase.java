@@ -154,7 +154,7 @@ public class PopulateDatabase {
                     roleService.save(customerRole);
                     customersPrepared.get(i).setRole(customerRole);
                 }
-                customersPrepared.get(i).setAccounts(accounts);
+                customersPrepared.get(i).setAccount(accountsPrepared.get(i));
                 customersPrepared.get(i).setBank(bank);
                 customersPrepared.get(i).setBankProducts(new ArrayList<>());
                 customersPrepared.get(i).setAddress(addressesPrepared.get(i));
