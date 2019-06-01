@@ -46,6 +46,8 @@ public class User {
     @NotNull
     private String email;
 
+    private boolean blocked = false;
+
     public User(User user) {
         this.email = user.getEmail();
         this.role = user.getRole();

@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/employee")
 @Slf4j
 @Api(description = "Operations pertaining to employee", tags = "Employee Controller")
-public class EmployeeController {
+public class EmployeeController extends AbstractController{
 
     @Autowired
     private EmployeeService employeeService;

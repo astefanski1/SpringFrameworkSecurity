@@ -1,8 +1,9 @@
 package com.astefanski.service;
 
-import com.astefanski.dto.CustomerDTO;
 import com.astefanski.dto.TransactionDTO;
+import com.astefanski.dto.UserBlockedDTO;
 import com.astefanski.exceptions.CustomerUserDoesNotExistsException;
+import com.astefanski.mapper.UserBlockedMapper;
 import com.astefanski.model.User;
 import com.astefanski.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ public class CustomerService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private UserBlockedMapper userBlockedMapper;
 
     public String createTransaction(TransactionDTO transactionDTO, String accountOwnerName) {
         User accountOwner = customerRepository.findByNameOrEmail(accountOwnerName, accountOwnerName).orElseThrow(CustomerUserDoesNotExistsException::new);
@@ -49,5 +52,9 @@ public class CustomerService {
         });
 
         return customerRepository.findByNameOrEmail(newName, newName).orElseThrow(CustomerUserDoesNotExistsException::new);
+    }
+
+    public UserBlockedDTO getUserBlockedInformation(String username) {
+        return userBlockedMapper.map(customerRepository.findByUsername(username).orElseThrow(CustomerUserDoesNotExistsException::new));
     }
 }
