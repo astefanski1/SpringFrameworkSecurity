@@ -8,6 +8,7 @@ import com.astefanski.model.User;
 import com.astefanski.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,12 +29,14 @@ public class CustomerController extends AbstractController{
     private CustomerMapper customerMapper;
 
     @PutMapping("/transaction")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public String sendMoney(@RequestBody TransactionDTO transactionDTO, Principal principal) {
 
         return customerService.createTransaction(transactionDTO, principal.getName());
     }
 
     @GetMapping("/userAccount")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public String getUserAccountInformation(Principal principal) {
         User user = customerService.getUserByName(principal.getName()).orElseThrow(CustomerUserDoesNotExistsException::new);
 
@@ -47,7 +50,9 @@ public class CustomerController extends AbstractController{
 
 
     @PutMapping("/editName")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<?> changeName(@RequestBody String newName, Principal principal) {
         return ResponseEntity.accepted().body(customerMapper.map(customerService.changeName(principal.getName(), newName)));
     }
+
 }

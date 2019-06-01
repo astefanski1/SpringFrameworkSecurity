@@ -43,6 +43,7 @@ public class EmployeeController extends AbstractController{
 
     @PostMapping
     @ApiOperation(value = "Add new user", response = User.class)
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> createCustomer(@RequestBody CustomerDTO customerDTO) {
         User savedUser = employeeService.createCustomer(customerDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/{username}").buildAndExpand(savedUser.getName()).toUri();
@@ -73,4 +74,5 @@ public class EmployeeController extends AbstractController{
     public CustomerDTO safeFindAccountsByCustomerStringUsingJpaCriteria(@PathVariable String text) throws SQLException {
         return customerMapper.map(employeeService.safeFindByStringUsingJpaRepository(text).orElseThrow(CustomerUserDoesNotExistsException::new));
     }
+
 }

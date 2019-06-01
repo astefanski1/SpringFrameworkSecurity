@@ -18,4 +18,5 @@ public class UserBlockedDTO {
 
     @NotNull
     private boolean isBlocked;
+
 }

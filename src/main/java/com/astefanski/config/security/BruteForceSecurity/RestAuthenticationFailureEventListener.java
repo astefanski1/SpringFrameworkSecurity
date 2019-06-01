@@ -18,4 +18,5 @@ public class RestAuthenticationFailureEventListener implements ApplicationListen
 
         loginAttemptService.loginFailed(auth.getRemoteAddress());
     }
+
 }

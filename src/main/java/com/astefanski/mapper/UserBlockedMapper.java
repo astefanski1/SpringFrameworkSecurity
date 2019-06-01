@@ -13,4 +13,5 @@ public class UserBlockedMapper {
                 .isBlocked(user.isBlocked())
                 .build();
     }
+
 }

@@ -26,5 +26,4 @@ public class BankService {
         return bankRepository.save(bank);
     }
 
-
 }

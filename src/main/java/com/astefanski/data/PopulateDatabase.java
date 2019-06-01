@@ -160,8 +160,7 @@ public class PopulateDatabase {
                 customersPrepared.get(i).setAddress(addressesPrepared.get(i));
                 customerRepository.save(customersPrepared.get(i));
             }
-
-            employeeService.getAllCustomers().forEach(customer1 -> log.info("\n////////////////\n---- CUSTOMER ----\n//////////////// {}", customer1.toString()));
         }
     }
+
 }

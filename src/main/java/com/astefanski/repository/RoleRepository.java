@@ -1,7 +1,6 @@
 package com.astefanski.repository;
 
 import com.astefanski.model.Role;
-import com.astefanski.model.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

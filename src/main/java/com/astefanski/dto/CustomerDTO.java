@@ -23,6 +23,9 @@ public class CustomerDTO {
     private String email;
 
     @NotNull
+    private String username;
+
+    @NotNull
     private String password;
 
     @NotNull
@@ -36,4 +39,5 @@ public class CustomerDTO {
 
     @NotNull
     private AccountType accountType;
+
 }

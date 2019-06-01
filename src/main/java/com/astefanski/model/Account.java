@@ -51,4 +51,5 @@ public class Account {
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "idBank")
     private Bank accountBelongsToBank;
+
 }

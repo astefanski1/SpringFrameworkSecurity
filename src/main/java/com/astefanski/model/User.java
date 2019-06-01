@@ -99,4 +99,5 @@ public class User {
             joinColumns = @JoinColumn(name = "idUser"),
             inverseJoinColumns = @JoinColumn(name = "idBankProduct"))
     private List<BankProduct> bankProducts = new ArrayList<>();
+
 }

@@ -103,7 +103,6 @@ public class CSRFDisabledTest {
         objectMapper = new ObjectMapper();
     }
 
-
     @Test
     @WithAnonymousUser
     public void givenNoCsrf_whenChangeName_thenUnauthorized() throws Exception {
@@ -166,4 +165,5 @@ public class CSRFDisabledTest {
                 .with(testUser()))
                 .andExpect(status().isAccepted());
     }
+
 }

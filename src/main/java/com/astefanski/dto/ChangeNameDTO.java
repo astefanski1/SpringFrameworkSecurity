@@ -17,4 +17,5 @@ public class ChangeNameDTO {
 
     @NotNull
     private String name;
+
 }

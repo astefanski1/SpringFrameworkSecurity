@@ -16,4 +16,5 @@ public class DataConfig {
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                 .registerModule(new JavaTimeModule());
     }
+
 }

@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 public class AbstractController {
 
-    protected static final String FORBIDDEN = "This operation is forbidden. You have no access to this resource.";
-    protected static final String BLOCKED = "Your account is blocked.";
+    private static final String FORBIDDEN = "This operation is forbidden. You have no access to this resource.";
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
@@ -27,4 +26,5 @@ public class AbstractController {
         log.trace(ex.getMessage(), ex);
         return new ErrorResponse(FORBIDDEN);
     }
+
 }

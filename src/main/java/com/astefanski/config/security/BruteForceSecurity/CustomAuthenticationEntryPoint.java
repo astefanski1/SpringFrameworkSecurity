@@ -31,4 +31,5 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         res.getWriter().write(objectMapper.writeValueAsString(data));
     }
+
 }

@@ -20,4 +20,5 @@ public class TransactionDTO {
 
     @NotNull
     private double moneyAmount;
+
 }

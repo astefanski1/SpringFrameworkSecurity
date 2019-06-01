@@ -57,4 +57,5 @@ public class CustomerService {
     public UserBlockedDTO getUserBlockedInformation(String username) {
         return userBlockedMapper.map(customerRepository.findByUsername(username).orElseThrow(CustomerUserDoesNotExistsException::new));
     }
+
 }

@@ -26,6 +26,7 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
             clearAuthenticationAttributes(request);
             return;
         }
+
         String targetUrlParam = getTargetUrlParameter();
         if (isAlwaysUseDefaultTargetUrl() || (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
             requestCache.removeRequest(request, response);

@@ -7,7 +7,6 @@ import com.astefanski.config.security.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,11 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -55,8 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //CSRF configuration for prevent CSRF attacks
-        http.csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//        http.csrf()
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+        http.csrf().disable();
 
         http.httpBasic().and().authorizeRequests()
                 .antMatchers("/customer/userBlocked").permitAll()
@@ -76,4 +72,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public RestAuthenticationSuccessHandler restAuthenticationSuccessHandler() {
         return new RestAuthenticationSuccessHandler();
     }
+
 }

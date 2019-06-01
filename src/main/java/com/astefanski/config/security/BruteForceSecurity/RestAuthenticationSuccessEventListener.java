@@ -18,4 +18,5 @@ public class RestAuthenticationSuccessEventListener implements ApplicationListen
 
         loginAttemptService.loginSucceeded(auth.getRemoteAddress());
     }
+
 }

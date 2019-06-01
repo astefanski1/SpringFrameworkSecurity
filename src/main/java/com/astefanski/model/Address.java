@@ -44,4 +44,5 @@ public class Address {
     @OneToOne
     @PrimaryKeyJoinColumn(name = "idUser")
     private User userAddress;
+
 }

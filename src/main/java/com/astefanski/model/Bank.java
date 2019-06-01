@@ -42,4 +42,5 @@ public class Bank {
     //TRANSACTIONS
     @OneToMany(mappedBy = "transactionInBank")
     private List<AccountTransaction> accountTransactions = new ArrayList<>();
+
 }
