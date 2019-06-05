@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //CSRF configuration for prevent CSRF attacks
+//        CSRF configuration for prevent CSRF attacks
 //        http.csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
@@ -61,6 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Configuration for prevent xss attacks in case when we creating application with view layer
         http.headers().xssProtection();
+
+        //Configuration to prevent ClickJacking attacks, this option is disabling possibility to open a frame in browser
+        http.headers().frameOptions().deny();
     }
 
     @Override

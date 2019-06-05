@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -37,15 +39,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @NotNull(message = "{spring.messages.emptyFirstName}")
     private String name;
 
-    @NotNull
+    @Column(unique = true)
+    @NotNull(message = "{spring.messages.emptyUsername}")
+    @Size(min = 3, max = 100, message = "{spring.messages.wrongUsername}")
     private String username;
 
-    @NotNull
+    @Column(unique = true)
+    @NotNull(message = "{spring.messages.emptyEmail}")
+    @Email(message = "{spring.messages.wrongEmail}")
+    @Size(max = 60, message = "{spring.messages.longEmail}")
     private String email;
 
+    @Builder.Default
     private boolean blocked = false;
 
     public User(User user) {

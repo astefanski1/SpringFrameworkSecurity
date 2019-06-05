@@ -27,7 +27,7 @@ public class SQLInjectionEmployeeRepository {
     private CustomerMapper customerMapper;
 
     public List<CustomerDTO> unsafeJpaFindCustomersByCustomerId(String customerId) {
-        String jql = "from Customer where id = " + customerId;
+        String jql = "from User where id = " + customerId;
         TypedQuery<User> q = em.createQuery(jql, User.class);
 
         List<User> users = new ArrayList<>(q.getResultList());
@@ -35,7 +35,7 @@ public class SQLInjectionEmployeeRepository {
     }
 
     public List<CustomerDTO> safeFindAccountsByCustomerId(String customerId) {
-        String jql = "from Customer where id = :customerId";
+        String jql = "from User where id = :customerId";
         TypedQuery<User> q = em.createQuery(jql, User.class)
                 .setParameter("customerId", Long.valueOf(customerId));
 

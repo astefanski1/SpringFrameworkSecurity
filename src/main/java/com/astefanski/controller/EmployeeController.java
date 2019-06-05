@@ -2,6 +2,7 @@ package com.astefanski.controller;
 
 import com.astefanski.dto.CustomerDTO;
 import com.astefanski.exceptions.CustomerUserDoesNotExistsException;
+import com.astefanski.exceptions.ValidationException;
 import com.astefanski.mapper.CustomerMapper;
 import com.astefanski.model.User;
 import com.astefanski.service.EmployeeService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
@@ -27,7 +30,7 @@ import java.util.List;
 @RequestMapping("/employee")
 @Slf4j
 @Api(description = "Operations pertaining to employee", tags = "Employee Controller")
-public class EmployeeController extends AbstractController{
+public class EmployeeController extends AbstractController {
 
     @Autowired
     private EmployeeService employeeService;
@@ -44,7 +47,9 @@ public class EmployeeController extends AbstractController{
     @PostMapping
     @ApiOperation(value = "Add new user", response = User.class)
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<?> createCustomer(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO, Errors errors) throws ValidationException {
+        validateFieldErrors(errors);
+
         User savedUser = employeeService.createCustomer(customerDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/{username}").buildAndExpand(savedUser.getName()).toUri();
         return ResponseEntity.created(location).body(customerMapper.map(savedUser));
@@ -66,12 +71,12 @@ public class EmployeeController extends AbstractController{
     }
 
     @GetMapping("/safe-customer-jpa")
-    public CustomerDTO safeFindAccountsByCustomerIdUsingJpaCriteria(Long id) throws SQLException {
+    public CustomerDTO safeFindAccountsByCustomerId(Long id) throws SQLException {
         return customerMapper.map(employeeService.safeFindByIdUsingJpaRepository(id).orElseThrow(CustomerUserDoesNotExistsException::new));
     }
 
     @GetMapping("/safe-customer-jpa-string/{text}")
-    public CustomerDTO safeFindAccountsByCustomerStringUsingJpaCriteria(@PathVariable String text) throws SQLException {
+    public CustomerDTO safeFindAccountsByCustomerString(@PathVariable String text) throws SQLException {
         return customerMapper.map(employeeService.safeFindByStringUsingJpaRepository(text).orElseThrow(CustomerUserDoesNotExistsException::new));
     }
 
